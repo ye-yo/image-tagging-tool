@@ -1,33 +1,33 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import styled, { css } from "styled-components";
 import TagList from "./TagList";
 import { ITagBox, IBoxInfo } from "../interfaces/main";
 import { useDrawBox } from "../hooks/useDrawBox";
 
 function Main() {
-  const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { boxList, handleMouseStart, handleMouseEnd, handleMouseMove } =
     useDrawBox(canvasRef);
 
-  const initCanvas = () => {
-    const wrap = wrapRef.current;
+  const handleImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const wrap = e.currentTarget;
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.width = wrap?.clientWidth || 0;
-      canvas.height = wrap?.clientHeight || 0;
+      canvas.width = wrap?.width || 0;
+      canvas.height = wrap?.height || 0;
     }
   };
 
-  useEffect(() => {
-    initCanvas();
-    return () => {};
-  }, []);
-
   return (
     <MainWrap>
-      <CanvasWrap ref={wrapRef}>
-        <img alt="이미지" src={require("../assets/sample.jpg")} />
+      <CanvasWrap>
+        <img
+          alt="이미지"
+          src={require("../assets/sample.jpg")}
+          onLoad={handleImageLoad}
+        />
         <canvas
           ref={canvasRef}
           onMouseDown={handleMouseStart}
@@ -65,8 +65,8 @@ const CanvasWrap = styled.div`
     display: block;
     margin: 0 auto;
     z-index: 1;
-    height: 100%;
     width: 100%;
+    height: 100%;
   }
 
   img {
