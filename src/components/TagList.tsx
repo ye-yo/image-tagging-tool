@@ -16,7 +16,10 @@ const TagListWrap = styled.ul`
   margin: 0 auto;
   position: absolute;
   top: 1rem;
-  left: 2rem;
+  left: 1rem;
+  background-color: white;
+  padding: 1rem 1rem 1rem 2rem;
+  min-width: 100px;
 `;
 
 const Tag = styled.li`
