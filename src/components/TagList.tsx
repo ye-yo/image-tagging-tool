@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { ITagBox } from "../interfaces";
 import Tag from "./Tag";
-import { TagState } from "../store";
+import { TagState } from "../redux/store";
 
 function TagList() {
   const tagList = useSelector((state: TagState) => state.tagList);

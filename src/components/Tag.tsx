@@ -4,7 +4,7 @@ import { ITagBox } from "../interfaces";
 import { FiEdit2 } from "react-icons/fi";
 import { VscChromeClose } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
-import { remove, update } from "../store";
+import { remove, update } from "../redux/store";
 
 function Tag({ id, name }: ITagBox) {
   const dispatch = useDispatch();

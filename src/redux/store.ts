@@ -1,4 +1,4 @@
-import { ITagBox, INewTagBox, IUpdatedTagBox } from "./interfaces";
+import { ITagBox, INewTagBox, IUpdatedTagBox } from "../interfaces";
 
 const ADD = "tag/ADD" as const;
 const REMOVE = "tag/REMOVE" as const;

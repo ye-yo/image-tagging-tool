@@ -1,7 +1,7 @@
 import { useState, MouseEvent, RefObject } from "react";
 import { ICoordinate } from "../interfaces";
 import { useDispatch, useSelector } from "react-redux";
-import { add, TagState } from "../store";
+import { add, TagState } from "../redux/store";
 
 const getTagName = () => {
   return prompt("영역의 이름은 무엇인가요?") || "";
