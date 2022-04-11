@@ -17,4 +17,5 @@ const HeaderWrap = styled.header`
   align-items: center;
   font-size: 2rem;
   padding: 0 1rem;
+  border-bottom: 2px solid #eeeeee;
 `;
