@@ -1,11 +1,18 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { ITagBox } from "../interfaces";
+import Tag from "./Tag";
+import { TagState } from "../store";
 
 function TagList() {
+  const tagList = useSelector((state: TagState) => state.tagList);
   return (
     <TagListWrap>
-      <Tag>tag</Tag>
-      <Tag>tag</Tag>
-      <Tag>tag</Tag>
+      <Title>Tag List</Title>
+      {!tagList.length && <EmptyText>등록된 태그가 없습니다.</EmptyText>}
+      {tagList.map((tag: ITagBox) => (
+        <Tag {...tag} key={tag.id} />
+      ))}
     </TagListWrap>
   );
 }
@@ -17,13 +24,18 @@ const TagListWrap = styled.ul`
   position: absolute;
   top: 1rem;
   left: 1rem;
-  background-color: white;
-  padding: 1rem 1rem 1rem 2rem;
-  min-width: 100px;
+  background-color: #fff8;
+  padding: 1rem;
+  min-width: 120px;
+  min-height: 120px;
+  z-index: 2;
 `;
 
-const Tag = styled.li`
-  list-style-type: disc;
-  margin-bottom: 0.4rem;
-  font-size: 1rem;
+const Title = styled.p`
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+`;
+
+const EmptyText = styled.div`
+  color: #888;
 `;

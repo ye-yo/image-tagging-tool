@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import styled, { css } from "styled-components";
 import TagList from "./TagList";
-import { ITagBox, IBoxInfo } from "../interfaces/main";
+import { ITagBox, IBoxInfo } from "../interfaces";
 import { useDrawBox } from "../hooks/useDrawBox";
 
 function Main() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { boxList, handleMouseStart, handleMouseEnd, handleMouseMove } =
+  const { tagList, handleMouseStart, handleMouseEnd, handleMouseMove } =
     useDrawBox(canvasRef);
 
   const handleImageLoad = (
@@ -23,11 +23,6 @@ function Main() {
   return (
     <MainWrap>
       <CanvasWrap>
-        <img
-          alt="이미지"
-          src={require("../assets/sample.jpg")}
-          onLoad={handleImageLoad}
-        />
         <canvas
           ref={canvasRef}
           onMouseDown={handleMouseStart}
@@ -35,10 +30,15 @@ function Main() {
           onMouseUp={handleMouseEnd}
           onMouseLeave={handleMouseEnd}
         />
+        <img
+          alt="이미지"
+          src={require("../assets/sample.jpg")}
+          onLoad={handleImageLoad}
+        />
         <BoxList>
-          {boxList.map(({ width, height, x, y, text, id }: ITagBox) => (
+          {tagList.map(({ width, height, x, y, name, id }: ITagBox) => (
             <Box key={id} width={width} height={height} x={x} y={y}>
-              {text}
+              {name}
             </Box>
           ))}
         </BoxList>
@@ -52,7 +52,7 @@ export default Main;
 
 const MainWrap = styled.main`
   position: relative;
-  max-width: 1000px;
+  max-width: 800px;
   margin: 50px auto 0;
 `;
 const CanvasWrap = styled.div`
@@ -87,6 +87,11 @@ const Box = styled.div`
   position: absolute;
   border: 1px solid #3ed9b0;
   background-color: #a9ff6f33;
+  padding: 1px;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.14;
   ${({ width, height, x, y }: IBoxInfo) => css`
     width: ${width}px;
     height: ${height}px;

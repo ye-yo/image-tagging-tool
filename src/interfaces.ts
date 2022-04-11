@@ -11,15 +11,16 @@ export interface IBoxInfo {
 }
 export interface ITagBox extends IBoxInfo {
   id: number;
-  text: string;
+  name: string;
 }
 
 export interface INewTagBox extends IBoxInfo {
-  text: string;
+  name: string;
 }
 
 export interface IUpdatedTagBox {
   id: number;
+  name?: string;
   x?: number;
   y?: number;
   width?: number;

@@ -1,17 +1,21 @@
 import { useState, MouseEvent, RefObject } from "react";
-import { ITagBox, ICoordinate } from "../interfaces/main";
+import { ICoordinate } from "../interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { add, TagState } from "../store";
+
+const getTagName = () => {
+  return prompt("영역의 이름은 무엇인가요?") || "";
+};
 
 export const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
-  const [boxList, setBoxList] = useState<ITagBox[]>([]);
+  const dispatch = useDispatch();
+  const tagList = useSelector((state: TagState) => state.tagList);
+
   const [startPosition, setStartPosition] = useState<ICoordinate | undefined>({
     x: 0,
     y: 0,
   });
   const [taggingStart, setTaggingStart] = useState<boolean>(false);
-
-  const getId = () => {
-    return boxList.length > 0 ? boxList[boxList.length - 1].id + 1 : 0;
-  };
 
   const getPosition = (e: MouseEvent) => {
     if (!canvasRef.current) return;
@@ -69,14 +73,14 @@ export const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
         y: startPosition.y,
         width,
         height,
-        text: "선글라스",
-        id: getId(),
+        name: getTagName(),
       };
-      setBoxList((boxList) => [...boxList, newBox]);
+
+      dispatch(add(newBox));
     }
   };
   return {
-    boxList,
+    tagList,
     handleMouseStart,
     handleMouseEnd,
     handleMouseMove,

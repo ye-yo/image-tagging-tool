@@ -8,6 +8,12 @@ const globalStyles = createGlobalStyle`
 
      body{
          font-size: 14px;
+         font-family: Georgia, "Times New Roman", serif;
+         color: #2d2d2d;
+     }
+
+     button{
+         cursor: pointer;
      }
 
      .App{
