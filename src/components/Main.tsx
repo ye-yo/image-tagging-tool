@@ -1,39 +1,14 @@
-import { useRef, useEffect, useState, MouseEvent } from "react";
+import { useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
 import TagList from "./TagList";
-
-interface ICoordinate {
-  x: number;
-  y: number;
-}
-
-interface IBoxInfo {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-interface ITagBox extends IBoxInfo {
-  id: number;
-  text: string;
-}
+import { ITagBox, IBoxInfo } from "../interfaces/main";
+import { useDrawBox } from "../hooks/useDrawBox";
 
 function Main() {
-  const [boxList, setBoxList] = useState<ITagBox[]>([]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [startPosition, setStartPosition] = useState<ICoordinate | undefined>({
-    x: 0,
-    y: 0,
-  });
-  const [taggingStart, setTaggingStart] = useState<boolean>(false);
-
-  const getPosition = (e: MouseEvent) => {
-    if (!canvasRef.current) return;
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    var rect = canvas.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  };
+  const { boxList, handleMouseStart, handleMouseEnd, handleMouseMove } =
+    useDrawBox(canvasRef);
 
   const initCanvas = () => {
     const wrap = wrapRef.current;
@@ -41,74 +16,6 @@ function Main() {
     if (canvas) {
       canvas.width = wrap?.clientWidth || 0;
       canvas.height = wrap?.clientHeight || 0;
-    }
-  };
-
-  const handleMouseStart = (e: MouseEvent) => {
-    setTaggingStart(true);
-    setStartPosition(getPosition(e));
-  };
-  const handleMouseEnd = (e: MouseEvent) => {
-    if (taggingStart) {
-      const position = getPosition(e);
-      if (position) {
-        createBox(position);
-      }
-      setTaggingStart(false);
-    }
-  };
-  const handleMouseMove = (e: MouseEvent) => {
-    if (taggingStart) {
-      const position = getPosition(e);
-      if (position) {
-        drawBox(position);
-      }
-    }
-  };
-
-  const getId = () => {
-    return boxList.length > 0 ? boxList[boxList.length - 1].id + 1 : 0;
-  };
-
-  const createBox = ({ x, y }: ICoordinate) => {
-    if (startPosition) {
-      const width = x - startPosition.x;
-      const height = y - startPosition.y;
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext("2d");
-      ctx?.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      if (width < 1 || height < 1) return;
-      const newBox = {
-        x: startPosition.x,
-        y: startPosition.y,
-        width,
-        height,
-        text: "선글라스",
-        id: getId(),
-      };
-      setBoxList((boxList) => [...boxList, newBox]);
-    }
-  };
-
-  const drawBox = ({ x, y }: ICoordinate) => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (ctx && startPosition) {
-      ctx?.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      ctx.strokeStyle = "#e66868";
-      ctx.fillStyle = "#e6686847";
-      ctx.fillRect(
-        startPosition.x,
-        startPosition.y,
-        x - startPosition.x,
-        y - startPosition.y
-      );
-      ctx.strokeRect(
-        startPosition.x,
-        startPosition.y,
-        x - startPosition.x,
-        y - startPosition.y
-      );
     }
   };
 
