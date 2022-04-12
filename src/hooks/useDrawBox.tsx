@@ -7,7 +7,7 @@ const getTagName = () => {
   return prompt("영역의 이름은 무엇인가요?") || "";
 };
 
-export const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
+const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const dispatch = useDispatch();
   const tagList = useSelector((state: TagState) => state.tagList);
 
@@ -86,3 +86,5 @@ export const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
     handleMouseMove,
   };
 };
+
+export default useDrawBox;
