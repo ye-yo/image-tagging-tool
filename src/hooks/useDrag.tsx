@@ -1,7 +1,11 @@
 import { useState, useEffect, DragEvent } from "react";
 import { ICoordinate } from "../interfaces";
 
-const useDrag = (canvas: HTMLElement | null, position: ICoordinate) => {
+const useDrag = (
+  canvas: HTMLElement | null,
+  position: ICoordinate,
+  prevent: boolean
+) => {
   const [startPosition, setStartPosition] = useState<ICoordinate>({
     x: 0,
     y: 0,
@@ -23,6 +27,10 @@ const useDrag = (canvas: HTMLElement | null, position: ICoordinate) => {
     };
   };
   const handleDragStart = (e: DragEvent) => {
+    if (prevent) {
+      e.preventDefault();
+      return;
+    }
     e.dataTransfer.effectAllowed = "move";
     setDragging(true);
     setStartPosition({ x: e.pageX, y: e.pageY });
@@ -35,7 +43,6 @@ const useDrag = (canvas: HTMLElement | null, position: ICoordinate) => {
       setDragging(false);
     }
   };
-  const handleDrag = (e: DragEvent) => {};
 
   const updatePosition = (e: DragEvent) => {
     const pos = getPosition(e);
@@ -51,7 +58,6 @@ const useDrag = (canvas: HTMLElement | null, position: ICoordinate) => {
     dragEvents: {
       onDragStart: handleDragStart,
       onDragEnd: handleDragEnd,
-      onDrag: handleDrag,
     },
   };
 };

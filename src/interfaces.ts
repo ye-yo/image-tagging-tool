@@ -3,6 +3,11 @@ export interface ICoordinate {
   y: number;
 }
 
+export interface ISize {
+  width: number;
+  height: number;
+}
+
 export interface IBoxInfo {
   x: number;
   y: number;
