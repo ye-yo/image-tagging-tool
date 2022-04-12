@@ -4,6 +4,7 @@ const globalStyles = createGlobalStyle`
      ${reset};
      *{
          box-sizing:border-box;
+        font-family: inherit;
      }
 
      body{
