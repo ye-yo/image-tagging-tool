@@ -6,8 +6,7 @@ import useDrawBox from "../hooks/useDrawBox";
 
 function Main() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { handleMouseStart, handleMouseEnd, handleMouseMove } =
-    useDrawBox(canvasRef);
+  const drawing = useDrawBox(canvasRef);
 
   const handleImageLoad = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -23,13 +22,7 @@ function Main() {
   return (
     <MainWrap>
       <CanvasWrap>
-        <canvas
-          ref={canvasRef}
-          onMouseDown={handleMouseStart}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseEnd}
-          onMouseLeave={handleMouseEnd}
-        />
+        <Canvas ref={canvasRef} {...drawing} />
         <img
           alt="이미지"
           src={require("../assets/sample.jpg")}
@@ -46,25 +39,26 @@ export default Main;
 
 const MainWrap = styled.main`
   position: relative;
-  max-width: 800px;
+  max-width: 640px;
   margin: 50px auto 0;
 `;
 const CanvasWrap = styled.div`
   min-width: 100%;
   height: fit-content;
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    margin: 0 auto;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-  }
 
   img {
     display: block;
     width: 100%;
   }
+`;
+
+const Canvas = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0 auto;
+  z-index: ${({ drawing }: { drawing: boolean }) => (drawing ? 100 : 1)};
+  width: 100%;
+  height: 100%;
 `;

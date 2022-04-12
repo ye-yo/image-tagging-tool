@@ -1,7 +1,7 @@
 import { useState, MouseEvent, RefObject } from "react";
 import { ICoordinate } from "../interfaces";
-import { useDispatch, useSelector } from "react-redux";
-import { add, TagState } from "../redux/store";
+import { useDispatch } from "react-redux";
+import { add } from "../redux/store";
 
 const getTagName = () => {
   return prompt("영역의 이름은 무엇인가요?") || "";
@@ -9,7 +9,6 @@ const getTagName = () => {
 
 const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const dispatch = useDispatch();
-  const tagList = useSelector((state: TagState) => state.tagList);
 
   const [startPosition, setStartPosition] = useState<ICoordinate | undefined>({
     x: 0,
@@ -68,22 +67,25 @@ const useDrawBox = (canvasRef: RefObject<HTMLCanvasElement>) => {
       const ctx = canvas?.getContext("2d");
       ctx?.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       if (width < 1 || height < 1) return;
-      const newBox = {
-        x: startPosition.x,
-        y: startPosition.y,
-        width,
-        height,
-        name: getTagName(),
-      };
-
-      dispatch(add(newBox));
+      const name = getTagName();
+      if (name) {
+        const newBox = {
+          x: startPosition.x,
+          y: startPosition.y,
+          width,
+          height,
+          name,
+        };
+        dispatch(add(newBox));
+      }
     }
   };
   return {
-    tagList,
-    handleMouseStart,
-    handleMouseEnd,
-    handleMouseMove,
+    drawing: taggingStart,
+    onMouseDown: handleMouseStart,
+    onMouseUp: handleMouseEnd,
+    onMouseLeave: handleMouseEnd,
+    onMouseMove: handleMouseMove,
   };
 };
 

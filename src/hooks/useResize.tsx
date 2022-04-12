@@ -10,7 +10,6 @@ const handleStyle = `
   cursor: se-resize;
   width: 20px;
   height: 20px;
-
   z-index: 2;
 `;
 const useResize = (resizableRef: RefObject<HTMLDivElement>, size: ISize) => {

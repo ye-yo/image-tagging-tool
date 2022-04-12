@@ -27,24 +27,7 @@ export type TagState = {
 };
 
 const initialState: TagState = {
-  tagList: [
-    {
-      id: 10101,
-      name: "선글라스",
-      x: 100,
-      y: 100,
-      width: 100,
-      height: 100,
-    },
-    {
-      id: 1010222,
-      name: "립스틱",
-      x: 200,
-      y: 400,
-      width: 300,
-      height: 200,
-    },
-  ],
+  tagList: [],
 };
 
 function tagReducer(
